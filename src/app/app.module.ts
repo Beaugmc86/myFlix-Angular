@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { UserRegistrationFormComponent } from './user-registration-form/user-registration-form.component';
+import { MovieCardComponent } from './movie-card/movie-card.component';
+import { UserLoginFormComponent } from './user-login-form/user-login-form.component';
 
 
 
@@ -21,6 +23,8 @@ import { UserRegistrationFormComponent } from './user-registration-form/user-reg
   declarations: [
     AppComponent,
     UserRegistrationFormComponent,
+    MovieCardComponent,
+    UserLoginFormComponent,
   ],
   imports: [
     BrowserModule,

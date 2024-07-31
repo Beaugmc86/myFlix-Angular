@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- src/app/user-registration-form/user-registration-form.component.html -->
 <mat-card>
   <mat-card-header>
@@ -8,7 +9,7 @@
       <mat-form-field>
         <input
           matInput
-          [(ngModel)]="userData.Username"
+          [(ngModel)]="userData.username"
           placeholder="Username"
           type="text"
           name="Username"
@@ -18,7 +19,7 @@
         <mat-form-field>
         <input
           matInput
-          [(ngModel)]="userData.Password"
+          [(ngModel)]="userData.password"
           type = "password"
           placeholder="Password"
           name="Password"
@@ -28,7 +29,7 @@
       <mat-form-field>
         <input
           matInput
-          [(ngModel)]="userData.Email"
+          [(ngModel)]="userData.email"
           type = "email"
           placeholder="Email"
           name="Email"
@@ -38,7 +39,7 @@
       <mat-form-field>
         <input
           matInput
-          [(ngModel)]="userData.Birthday"
+          [(ngModel)]="userData.birthDate"
           type = "date"
           placeholder="Birthday"  
           name="Birthday"

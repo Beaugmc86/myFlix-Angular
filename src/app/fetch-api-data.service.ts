@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 
 // API URL
 const apiUrl = 'https://be-myflix-9ae503e43319.herokuapp.com/';
+
 @Injectable({
   providedIn: 'root'
 })
