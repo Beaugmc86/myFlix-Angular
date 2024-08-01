@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { UserRegistrationService } from '../fetch-api-data.service';
+import { FetchApiDataService } from '../fetch-api-data.service';
+import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -8,22 +9,23 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './user-login-form.component.html',
   styleUrl: './user-login-form.component.scss'
 })
-export class UserLoginFormComponent {
+export class UserLoginFormComponent implements OnInit {
 
-  @Input() userData = { username: '', password: ''};
+  @Input() userData = { username: '', password: '',};
 
   constructor(
-    public fetchApiData: UserRegistrationService,
-    public dialogRef: MatDialogRef<UserRegistrationService>,
+    public fetchApiData: FetchApiDataService,
+    public dialogRef: MatDialogRef<UserLoginFormComponent>,
     public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
   // This is the function responsible for sending the form inputs to the backend
-  loginUser(): void {
+  logInUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
-  // Logic for a successful user registration goes here! (To be implemented)
+      localStorage.setItem('user', JSON.stringify(response.user));
+      localStorage.setItem('token', response.token);
       this.dialogRef.close(); // This will close the modal on success
       console.log(response);
       this.snackBar.open(response, 'OK', {
