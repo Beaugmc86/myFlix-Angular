@@ -12,6 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterModule, Routes } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatIconModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
