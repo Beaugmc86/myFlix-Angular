@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FetchApiDataService } from '../fetch-api-data.service';
-import { UserRegistrationFormComponent } from '../user-registration-form/user-registration-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
