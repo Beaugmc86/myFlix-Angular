@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './user-login-form.component.html',
   styleUrl: './user-login-form.component.scss'
 })
+
 export class UserLoginFormComponent implements OnInit {
 
   @Input() userData = { username: '', password: '',};
@@ -15,13 +16,14 @@ export class UserLoginFormComponent implements OnInit {
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialogRef: MatDialogRef<UserLoginFormComponent>,
-    public snackBar: MatSnackBar) { }
+    public snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
   }
 
   // This is the function responsible for sending the form inputs to the backend
-  logInUser(): void {
+  loginUser(): void {
     this.fetchApiData.userLogin(this.userData).subscribe((response) => {
       localStorage.setItem('user', JSON.stringify(response.user));
       localStorage.setItem('token', response.token);
