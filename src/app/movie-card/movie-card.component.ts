@@ -13,7 +13,7 @@ import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component'
 })
 export class MovieCardComponent {
   movies: any[] = [];
-  genre: any = "";
+  // genre: any = "";
 
   constructor(
     public fetchApiData: FetchApiDataService,

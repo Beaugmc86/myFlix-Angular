@@ -1,0 +1,41 @@
+<!-- user-profile.component.html -->
+<div class="profile-container">
+  <h2>User Profile</h2>
+
+  <form (ngSubmit)="updateUser()">
+    <label>
+      Username:
+      <input [(ngModel)]="userData.username" name="username" required />
+    </label>
+
+    <label>
+      Password:
+      <input [(ngModel)]="userData.password" name="password" required />
+    </label>
+
+    <label>
+      Email:
+      <input [(ngModel)]="userData.email" name="email" type="email" required />
+    </label>
+
+    <label>
+      Birth Date:
+      <input [(ngModel)]="userData.birthDate" name="birthDate" type="date" required />
+    </label>
+
+    <button type="submit">Update Profile</button>
+  </form>
+
+  <h3>Favorite Movies</h3>
+  <div class="movie-list">
+    <div *ngFor="let movie of favoriteMovies" class="movie-card">
+      <img [src]="movie.ImagePath" alt="{{movie.Title}}" />
+      <h4>{{ movie.Title }}</h4>
+      <button (click)="openGenreDialog(movie)">Genre</button>
+      <button (click)="openDirectorDialog(movie)">Director</button>
+      <button (click)="openSynopsisDialog(movie)">Synopsis</button>
+      <button (click)="removeFavoriteMovie(movie._id)">Remove</button>
+    </div>
+  </div>
+</div>
+
