@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { RouterModule, Routes } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,7 @@ import { DirectorCardComponent } from './director-card/director-card.component';
 import { SynopsisCardComponent } from './synopsis-card/synopsis-card.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
+
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
@@ -60,6 +62,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatFormFieldModule,
     MatSnackBarModule,
+    MatToolbarModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
