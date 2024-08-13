@@ -13,20 +13,20 @@ export class TestComponent implements OnInit {
 
   ngOnInit(): void {
     const username = localStorage.getItem('username');
-  console.log('Username from localStorage:', username); // Should log 'beautest1'
+    console.log('Username from localStorage:', username); // Should log 'beautest1'
   
-  if (username) {
-    this.fetchApiData.getUser(username).subscribe(
-      (response) => {
-        console.log('User data received:', response); // Should log the user data received
-        this.userData = response;
-      },
-      (error) => {
-        console.error('Error fetching user data:', error); // Log any errors
-      }
-    );
-  } else {
-    console.error('No username found in localStorage');
+    if (username) {
+      this.fetchApiData.getUser(username).subscribe(
+        (response) => {
+          console.log('User data received:', response); // Should log the user data received
+          this.userData = response;
+        },
+        (error) => {
+          console.error('Error fetching user data:', error); // Log any errors
+        }
+      );
+    } else {
+      console.error('No username found in localStorage');
+    }
   }
-}
 }

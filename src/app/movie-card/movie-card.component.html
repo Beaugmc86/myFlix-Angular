@@ -28,7 +28,14 @@
           >
               Synopsis
           </button>
-          <mat-icon>favorite_border</mat-icon>
+          <button mat-button (click)="toggleFavorite(movie)">
+            <mat-icon *ngIf="isFavorite(movie)" style="transform: scale(1.5)">
+                favorite
+            </mat-icon>
+            <mat-icon *ngIf="!isFavorite(movie)" style="transform: scale(1.5)">
+                favorite_border
+            </mat-icon>
+          </button>
       </mat-card-actions>
   </mat-card>
 </div>

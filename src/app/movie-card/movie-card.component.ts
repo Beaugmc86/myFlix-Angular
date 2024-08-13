@@ -27,50 +27,74 @@ export class MovieCardComponent implements OnInit{
   }
 
   getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-        this.movies = resp;
-        console.log(this.movies);       
-      });
-    }
+    this.fetchApiData.getAllMovies().subscribe(
+      (response: any) => {
+        this.movies = response;
+        console.log(this.movies);
+      },
+      (error) => {
+        console.error('Error fetching movies:', error);
+        this.snackbar.open('Error fetching movies', 'OK', { duration: 3000 });
+      }
+    );
+  }
 
   getFavoriteMovies(): void {
     const username = localStorage.getItem('username');
     if (username) {
-      this.fetchApiData.getUser(username).subscribe((user: any) => {
-        this.favoriteMovies = user.FavoriteMovies;
-        console.log(this.favoriteMovies);
-      });
+      this.fetchApiData.getUser(username).subscribe(
+        (user: any) => {
+          this.favoriteMovies = user.FavoriteMovies.map((movie: any) => movie._id);
+          console.log(this.favoriteMovies);
+        },
+        (error) => {
+          console.error('Error fetching user data:', error);
+          this.snackbar.open('Error fetching user data', 'OK', { duration: 3000 });
+        }
+      );
     } else {
       this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
     }
   }
 
   toggleFavorite(movie: any): void {
+    const username = localStorage.getItem('username');
+    if (!username) {
+      this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
+      return;
+    }
+  
     if (this.isFavorite(movie)) {
       this.removeFavorite(movie);
     } else {
       this.addFavorite(movie);
     }
   }
-
+  
   addFavorite(movie: any): void {
     const username = localStorage.getItem('username');
-      if (username) {
+    if (username) {
       this.fetchApiData.addFavoriteMovie(username, movie._id).subscribe(() => {
         this.snackbar.open(`${movie.Title} added to favorites`, 'OK', { duration: 3000 });
         this.getFavoriteMovies(); // Refresh favorite movies to update UI
+      }, (error) => {
+        console.error('Error adding favorite movie:', error);
+        this.snackbar.open('Failed to add favorite movie', 'OK', { duration: 3000 });
       });
     } else {
       this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
     }
   }
-
-  removeFavorite(movie: any): void {
+  
+  removeFavorite(movieId: string): void {
     const username = localStorage.getItem('username');
     if (username) {
-      this.fetchApiData.deleteFavoriteMovie(username, movie._id).subscribe(() => {
-        this.snackbar.open(`${movie.Title} removed from favorites`, 'OK', { duration: 3000 });
+      this.fetchApiData.deleteFavoriteMovie(username, movieId).subscribe(() => {
+        this.snackbar.open(`removed from favorites`, 'OK', { duration: 3000 });
         this.getFavoriteMovies(); // Refresh favorite movies to update UI
+      }, (error) => {
+        console.error('Error removing favorite movie:', error);
+        this.snackbar.open('Failed to remove favorite movie', 'OK', { duration: 3000 });
       });
     } else {
       this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
