@@ -1,41 +1,42 @@
-<!-- user-profile.component.html -->
 <div class="profile-container">
   <h2>User Profile</h2>
 
   <form (ngSubmit)="updateUser()">
-    <label>
-      Username:
-      <input [(ngModel)]="userData.username" name="username" required />
-    </label>
+    <mat-form-field appearance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="userData.username" name="username" placeholder="username" type="text" />
+    </mat-form-field>
 
-    <label>
-      Password:
-      <input [(ngModel)]="userData.password" name="password" required />
-    </label>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput [(ngModel)]="userData.password" name="password" type="password" />
+    </mat-form-field>
 
-    <label>
-      Email:
-      <input [(ngModel)]="userData.email" name="email" type="email" required />
-    </label>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="userData.email" name="email" placeholder="email" type="email" />
+    </mat-form-field>
 
-    <label>
-      Birth Date:
-      <input [(ngModel)]="userData.birthDate" name="birthDate" type="date" required />
-    </label>
+    <mat-form-field appearance="fill">
+      <mat-label>Birth Date</mat-label>
+      <input matInput [(ngModel)]="userData.birthDate" name="birthDate" placeholder="birthDate" type="date" />
+    </mat-form-field>
 
-    <button type="submit">Update Profile</button>
+    <button mat-raised-button color="primary" type="submit">Update Profile</button>
   </form>
 
   <h3>Favorite Movies</h3>
   <div class="movie-list">
-    <div *ngFor="let movie of favoriteMovies" class="movie-card">
-      <img [src]="movie.ImagePath" alt="{{movie.Title}}" />
-      <h4>{{ movie.Title }}</h4>
-      <button (click)="openGenreDialog(movie)">Genre</button>
-      <button (click)="openDirectorDialog(movie)">Director</button>
-      <button (click)="openSynopsisDialog(movie)">Synopsis</button>
-      <button (click)="removeFavoriteMovie(movie._id)">Remove</button>
-    </div>
+    <mat-card *ngFor="let movie of favoriteMovies" class="movie-card">
+      <img mat-card-image [src]="movie.ImagePath" alt="{{movie.Title}}" />
+      <mat-card-title>{{ movie.Title }}</mat-card-title>
+      <mat-card-actions>
+        <button mat-button (click)="openGenreDialog(movie)">Genre</button>
+        <button mat-button (click)="openDirectorDialog(movie)">Director</button>
+        <button mat-button (click)="openSynopsisDialog(movie)">Synopsis</button>
+        <button mat-button color="warn" (click)="removeFavoriteMovie(movie._id)">Remove</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>
 

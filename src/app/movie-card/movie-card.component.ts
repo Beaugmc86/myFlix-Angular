@@ -11,9 +11,9 @@ import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component'
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss'
 })
-export class MovieCardComponent {
+export class MovieCardComponent implements OnInit{
   movies: any[] = [];
-  // genre: any = "";
+  favoriteMovies: string[] = [];
 
   constructor(
     public fetchApiData: FetchApiDataService,
@@ -23,15 +23,63 @@ export class MovieCardComponent {
 
   ngOnInit(): void {
     this.getMovies();
+    this.getFavoriteMovies();
   }
 
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
         this.movies = resp;
-        console.log(this.movies);
-        return this.movies;
+        console.log(this.movies);       
       });
     }
+
+  getFavoriteMovies(): void {
+    const username = localStorage.getItem('username');
+    if (username) {
+      this.fetchApiData.getUser(username).subscribe((user: any) => {
+        this.favoriteMovies = user.FavoriteMovies;
+        console.log(this.favoriteMovies);
+      });
+    } else {
+      this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
+    }
+  }
+
+  toggleFavorite(movie: any): void {
+    if (this.isFavorite(movie)) {
+      this.removeFavorite(movie);
+    } else {
+      this.addFavorite(movie);
+    }
+  }
+
+  addFavorite(movie: any): void {
+    const username = localStorage.getItem('username');
+      if (username) {
+      this.fetchApiData.addFavoriteMovie(username, movie._id).subscribe(() => {
+        this.snackbar.open(`${movie.Title} added to favorites`, 'OK', { duration: 3000 });
+        this.getFavoriteMovies(); // Refresh favorite movies to update UI
+      });
+    } else {
+      this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
+    }
+  }
+
+  removeFavorite(movie: any): void {
+    const username = localStorage.getItem('username');
+    if (username) {
+      this.fetchApiData.deleteFavoriteMovie(username, movie._id).subscribe(() => {
+        this.snackbar.open(`${movie.Title} removed from favorites`, 'OK', { duration: 3000 });
+        this.getFavoriteMovies(); // Refresh favorite movies to update UI
+      });
+    } else {
+      this.snackbar.open('Error: Username not found', 'OK', { duration: 3000 });
+    }
+  }
+
+  isFavorite(movie: any): boolean {
+    return this.favoriteMovies.includes(movie._id);
+  }
 
   openGenreDialog(movie: any): void {
     this.dialog.open(GenreCardComponent, {
