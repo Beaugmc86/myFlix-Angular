@@ -39,6 +39,7 @@ export class UserProfileComponent implements OnInit {
         this.user = resp;
         this.favoriteMovies = this.user.FavoriteMovies || []; // Update favoriteMovies from user data
         this.getAllMovies(); // Fetch all movies after getting user data
+        console.log(this.favoriteMovies);
       });
     }
   }
@@ -98,7 +99,7 @@ export class UserProfileComponent implements OnInit {
     if (username) {
       this.fetchApiData.deleteFavoriteMovie(username, movieId).subscribe(() => {
         this.snackBar.open('Movie removed from favorites', 'OK', {
-          duration: 2000,
+          duration: 3000,
         });
         this.getUser(); // Refresh favorite movies
       });
