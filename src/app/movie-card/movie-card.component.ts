@@ -14,7 +14,7 @@ import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component'
 export class MovieCardComponent implements OnInit{
   movies: any[] = [];
   username: any = {};
-  userData = { userId: "", favoriteMovie:[] }
+  userData = { userId: '', favoriteMovie:[] }
   favoriteMovie: any[] = [];
 
   constructor(
@@ -25,7 +25,6 @@ export class MovieCardComponent implements OnInit{
 
   ngOnInit(): void {
     this.getMovies();
-    // this.getFavoriteMovies();
   }
 
   getMovies(): void {
