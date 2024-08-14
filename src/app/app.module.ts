@@ -14,6 +14,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { RouterModule, Routes } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+
 
 // Components
 import { AppRoutingModule } from './app-routing.module';
@@ -55,11 +58,13 @@ const appRoutes: Routes = [
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatListModule,
     MatSnackBarModule,
     MatToolbarModule,
     RouterModule.forRoot(appRoutes),
