@@ -27,16 +27,15 @@
 
   <h3>Favorite Movies</h3>
   <div class="movie-list" style="display: flex;">
-    <mat-card *ngFor="let movie of favoriteMovies" style="flex: 1 1 auto;" class="movie-card">
+    <mat-card *ngFor="let movie of favoriteMovie" style="flex: 1 1 auto;" class="movie-card">
       <img mat-card-image [src]="movie.ImagePath" alt="{{movie.Title}}" />
       <mat-card-title>{{ movie.Title }}</mat-card-title>
       <mat-card-actions>
         <button mat-button (click)="openGenreDialog(movie)">Genre</button>
         <button mat-button (click)="openDirectorDialog(movie)">Director</button>
         <button mat-button (click)="openSynopsisDialog(movie)">Synopsis</button>
-        <button mat-button color="warm" (click)="removeFavoriteMovie(movie._id)">Remove</button>
+        <!-- <button mat-button color="warm" (click)="removeFavoriteMovie(movie._id)">Remove</button> -->
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
-
