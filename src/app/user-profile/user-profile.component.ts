@@ -55,16 +55,17 @@ export class UserProfileComponent implements OnInit {
 /** Lifecycle hook called after component initialization. */  ngOnInit(): void {
     this.getUserProfile();
     this.getMovies();
-    this.getFavoriteMovie();
+    this.getFavorites();
   }
 
   // Fetches user profile data.
   public getUserProfile(): void {
-    const username = this.userData.username;
-    if (username) {
-      this.fetchApiData.getUser(username).subscribe((result: any) => {
-        console.log('result:', result.favoritemovie);
-        this.user = result;
+    const user = JSON.parse(localStorage.getItem('user') as string);
+    
+    if (user) {
+      this.fetchApiData.getUser(user.username).subscribe((response: any) => {
+        console.log('response:', user.FavoriteMovies);
+        this.user = response;
         this.userData.username = this.user.username;
         this.userData.email = this.user.email;
         if (this.user.birthDate) {
@@ -87,20 +88,24 @@ export class UserProfileComponent implements OnInit {
 
   //Fetches all movies.
   getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((result: any) => {
-      if (Array.isArray(result)) {
-        this.movies = result;
+    this.fetchApiData.getAllMovies().subscribe(
+      (response: any) => {
+        this.movies = response;
+        console.log("Movie list ", this.movies);
+      },
+      (error) => {
+        console.error('Error fetching movies:', error);
+        this.snackBar.open('Error fetching movies', 'OK', { duration: 3000 });
       }
-      return this.movies;
-    });
+    );
   }
 
   //Fetches user's favorite movies.
-  getFavoriteMovie(): void {
-    const username = this.userData.username;
-    if (username) {
-      this.fetchApiData.getUser(username).subscribe((result) => {
-        this.favoriteMoviesIDs = result.favoritemovie;
+  getFavorites(): void {
+    const user = JSON.parse(localStorage.getItem('user') as string);
+    if (user) {
+      this.fetchApiData.getUser(user.username).subscribe((response) => {
+        this.favoriteMoviesIDs = response.FavoriteMovies;
       });
     } else {
       console.error('Username is not available.')
@@ -116,7 +121,9 @@ export class UserProfileComponent implements OnInit {
 
   //Toggles a movie in the user's favorite movies list.
   toggleFavorite(movie: any): void {
+    console.log('toggleFavorite called with movie:', movie);
     const isFavorite = this.isFavorite(movie);
+    console.log('isFavorite:', isFavorite);
     isFavorite
       ? this.deleteFavoriteMovie(movie)
       : this.addFavoriteMovie(movie);
@@ -126,9 +133,9 @@ export class UserProfileComponent implements OnInit {
   addFavoriteMovie(movie: any): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (user) {
-      this.fetchApiData.addFavoriteMovie(user.userName, movie._id).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
-        this.getFavoriteMovie(); // Refresh favorite movies after adding a new one
+      this.fetchApiData.addFavoriteMovie(user.username, movie._id).subscribe((response) => {
+        localStorage.setItem('user', JSON.stringify(response));
+        this.getFavorites(); // Refresh favorite movies after adding a new one
         this.snackBar.open('Added Favorite', 'OK', {
           duration: 1000,
         });
@@ -138,16 +145,14 @@ export class UserProfileComponent implements OnInit {
 
   //Deletes a movie from the user's favorite movies list.
   deleteFavoriteMovie(movie: any): void {
-    let user = localStorage.getItem('user');
+    const user = JSON.parse(localStorage.getItem('user') as string);
     if (user) {
-      let parsedUser = JSON.parse(user);
-      this.userData.UserId = parsedUser._id;
-      this.fetchApiData.deleteFavoriteMovie(parsedUser.userName, movie._id).subscribe((result) => {
-        localStorage.setItem('user', JSON.stringify(result));
+      this.fetchApiData.deleteFavoriteMovie(user.username, movie._id).subscribe((response) => {
+        localStorage.setItem('user', JSON.stringify(response));
         // Remove the movie ID from the favoritemovie array
         this.favoriteMoviesIDs = this.favoriteMoviesIDs.filter((id) => id !== movie._id);
         // Fetch the user's favorite movies again to update the movie list
-        this.getFavoriteMovie();
+        this.getFavorites();
         // Show a snack bar message
         this.snackBar.open('Removed Favorite', 'OK', {
           duration: 1000,
@@ -158,12 +163,12 @@ export class UserProfileComponent implements OnInit {
 
   //Updates user data.
   updateUser(): void {
-    const username = this.userData.username;
+    const user = JSON.parse(localStorage.getItem('user') as string);
     const updatedUserData = this.formUserData;
-    if (username && updatedUserData) {
-      this.fetchApiData.editUser(username, updatedUserData).subscribe((result) => {
-        console.log('User update success:', result);
-        localStorage.setItem('user', JSON.stringify(result));
+    if (user && updatedUserData) {
+      this.fetchApiData.editUser(user.username, updatedUserData).subscribe((response) => {
+        console.log('User update success:', response);
+        localStorage.setItem('user', JSON.stringify(response));
         this.snackBar.open('User updated successfully!', 'OK', {
           duration: 2000,
         });
@@ -184,11 +189,11 @@ export class UserProfileComponent implements OnInit {
 
   //Deletes the user's account.
   async deleteUser(): Promise<void> {
-    const username = this.userData.username;
-    console.log('deleteUser function called:', username);
+    const user = JSON.parse(localStorage.getItem('user') as string);
+    console.log('deleteUser function called:', user.username);
     if (confirm('Do you want to delete your account permanently?')) {
-      if (username) {
-        this.fetchApiData.deleteUser(username).subscribe(() => {
+      if (user) {
+        this.fetchApiData.deleteUser(user.username).subscribe(() => {
           this.snackBar.open('Account deleted successfully!', 'OK', {
             duration: 3000,
           });

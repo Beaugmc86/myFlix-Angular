@@ -57,19 +57,6 @@ export class FetchApiDataService {
     );
   }
 
-  // Get Movie by ID
-  // public getMovieById(id: string): Observable<any> {
-  //   const token = localStorage.getItem('token');
-  //   return this.http.get(`${apiUrl}/movies/${id}`, {
-  //     headers: new HttpHeaders({
-  //       Authorization: `Bearer ${token}`,
-  //     })
-  //   }).pipe(
-  //     map(this.extractResponseData),
-  //     catchError(this.handleError)
-  //   );
-  // }
-
   // Get Director
   public getDirector(): Observable<any> {
     const token = localStorage.getItem('token');

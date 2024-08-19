@@ -1,4 +1,6 @@
 <div class="user-profile-container mat-elevation-z8">
+
+  <!-- User Profile -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>User Profile</mat-card-title>
@@ -29,37 +31,46 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-divider></mat-divider>
-
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Favorite Movies</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item *ngFor="let movie of favoriteMovie">
-          <mat-icon mat-list-icon>movie</mat-icon>
-          <h3 mat-line>{{ movie.Title }}</h3>
-          <p mat-line>{{ movie.Description }}</p>
-          <button mat-icon-button color="primary" (click)="openGenreDialog(movie)">
-            <mat-icon>category</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="openDirectorDialog(movie)">
-            <mat-icon>person</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="openSynopsisDialog(movie)">
-            <mat-icon>info</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="toggleFavorite(movie)">
-            <mat-icon>{{ isFavorite(movie) ? 'favorite' : 'favorite_border' }}</mat-icon>
-          </button>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
-  </mat-card>
-
-  <div class="back-button">
-    <button mat-raised-button color="accent" (click)="backToMovie()">Back to Movies</button>
+  <!-- Favorite Movies -->
+  <div style="display: flex; flex-wrap: wrap;">
+    <mat-card *ngFor="let movie of favoriteMovie;" style="flex: 1 1 auto; max-width: 300px; max-height: 400px;">
+        <mat-card-header>
+        <mat-card-title>{{movie.Title}}</mat-card-title>
+            <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
+        </mat-card-header>
+        <img src={{movie.ImagePath}} alt= {{movie.Title}} />
+        <mat-card-actions>
+            <button
+                mat-button
+                color="primary"
+                (click)="openGenreDialog(movie)"
+            >
+                Genre
+            </button>
+            <button
+                mat-button
+                color="primary"
+                (click)="openDirectorDialog(movie)"
+            >
+                Director
+            </button>
+            <button
+                mat-button
+                color="primary"
+                (click)="openSynopsisDialog(movie)"
+            >
+                Synopsis
+            </button>
+            <button mat-button (click)="toggleFavorite(movie)">
+              <mat-icon *ngIf="isFavorite(movie)" style="transform: scale(1.5)">
+                  favorite
+              </mat-icon>
+              <mat-icon *ngIf="!isFavorite(movie)" style="transform: scale(1.5)">
+                  favorite_border
+              </mat-icon>
+            </button>
+        </mat-card-actions>
+    </mat-card>
   </div>
 </div>
 
