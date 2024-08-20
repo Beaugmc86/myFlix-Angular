@@ -1,0 +1,19 @@
+.movies-page {
+  background-color: rgb(24, 24, 24);
+  padding: 25px 100px;
+}
+
+.mat-mdc-card {
+  background-color: rgba(255, 255, 255, 0.808);
+  min-width: 235px;
+  max-width: 350px;
+  box-shadow: 7px 7px 7px rgba(238, 3, 3, 0.788);
+}
+
+.mat-mdc-card-header {
+  justify-content: space-between;
+}
+
+.mat-mdc-card-actions {
+  justify-content: space-between;
+}
