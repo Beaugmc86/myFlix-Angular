@@ -1,0 +1,39 @@
+.user-profile-page {
+  background-color: rgb(24, 24, 24);
+  padding: 25px 100px;
+}
+
+.user-profile-container mat-card {
+  margin-bottom: 32px;
+  background-color: rgba(255, 255, 255, 0.808);
+  border-radius: 8px;
+  box-shadow: 7px 7px 7px rgba(238, 3, 3, 0.788);
+}
+
+.user-profile-container mat-form-field {
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.user-profile-container .button-group button {
+  background-color: rgba(219, 3, 3, 0.74);
+  color: white;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.favorites-container mat-card {
+  background-color: rgba(255, 255, 255, 0.808);
+  min-width: 235px;
+  max-width: 350px;
+  box-shadow: 7px 7px 7px rgba(238, 3, 3, 0.788);
+}
+
+.mat-mdc-card-header {
+  justify-content: space-between;
+}
+
+.mat-mdc-card-actions {
+  justify-content: space-between;
+}
