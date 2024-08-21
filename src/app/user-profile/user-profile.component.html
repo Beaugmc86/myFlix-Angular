@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+
 <div class="user-profile-page">
 
   <!-- User Profile -->
@@ -24,6 +26,7 @@
             <mat-label>Password</mat-label>
             <input matInput [(ngModel)]="formUserData.password" name="password" type="password" />
           </mat-form-field>
+          <!--buttons-->
           <div class="button-group">
             <button mat-raised-button color="primary" (click)="updateUser()">Update Profile</button>
             <button mat-raised-button color="warn" (click)="deleteUser()">Delete Profile</button>

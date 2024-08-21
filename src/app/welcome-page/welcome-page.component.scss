@@ -1,0 +1,37 @@
+.main-page {
+  background-color: rgb(24, 24, 24);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.welcome-container mat-card {
+  background-color: rgba(255, 255, 255, 0.808);
+  box-shadow: 7px 7px 7px rgba(238, 3, 3, 0.788);
+}
+
+.login-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.login-buttons button {
+  background-color: rgba(219, 3, 3, 0.74);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-buttons button:hover {
+  background-color: rgba(0, 92, 187, 0.6); /* lighten button on hover */
+}
+
+.login-buttons button:active {
+  background-color: rgba(0, 92, 187, 0.5); /* Further lighten button when active */
+}
