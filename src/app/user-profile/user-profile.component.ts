@@ -75,9 +75,11 @@ export class UserProfileComponent implements OnInit {
           }
         }
         this.formUserData = { ...this.userData };
-        this.favoriteMoviesIDs = this.user.favoritemovie;
+        this.favoriteMoviesIDs = this.user.favoritemovie || [];
 
         this.fetchApiData.getAllMovies().subscribe((movies: any[]) => {
+          console.log('Favorite Movies IDs:', this.favoriteMoviesIDs); // Log to debug
+          console.log('Movies:', movies); // Log to debug
           this.favoriteMovie = movies.filter((movie: any) => this.favoriteMoviesIDs.includes(movie._id));
         });
       });
@@ -187,29 +189,28 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  //Deletes the user's account.
+  // Deletes the user's account.
   async deleteUser(): Promise<void> {
     const user = JSON.parse(localStorage.getItem('user') as string);
-    console.log('deleteUser function called:', user.username);
+    console.log('deleteUser function called:', user?.username);
+    
     if (confirm('Do you want to delete your account permanently?')) {
       if (user) {
-        this.fetchApiData.deleteUser(user.username).subscribe(() => {
-          this.snackBar.open('Account deleted successfully!', 'OK', {
-            duration: 3000,
-          });
-          localStorage.clear();
-          this.router.navigate(['welcome']);
-        }, (error) => {
-          console.error('Error deleting user:', error);
-          this.snackBar.open('Failed to delete account', 'OK', {
-            duration: 3000,
-          });
+        this.fetchApiData.deleteUser(user.username).subscribe({
+          next: () => {
+            console.log('Account deletion response received.');
+            this.snackBar.open('Account deleted successfully!', 'OK', { duration: 3000 });
+            localStorage.clear();
+            this.router.navigate(['welcome']);
+          },
+          error: (error) => {
+            console.error('Error response from deleteUser API:', error);
+            this.snackBar.open('Failed to delete account', 'OK', { duration: 3000 });
+          }
         });
       } else {
         console.error('Username is not available.');
-        this.snackBar.open('Failed to delete account. Username is missing.', 'OK', {
-          duration: 3000,
-        });
+        this.snackBar.open('Failed to delete account. Username is missing.', 'OK', { duration: 3000 });
       }
     }
   }
