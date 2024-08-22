@@ -20,7 +20,7 @@ export class MovieCardComponent implements OnInit{
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
-    public snackbar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class MovieCardComponent implements OnInit{
       },
       (error) => {
         console.error('Error fetching movies:', error);
-        this.snackbar.open('Error fetching movies', 'OK', { duration: 3000 });
+        this.snackBar.open('Error fetching movies', 'OK', { duration: 3000 });
       }
     );
   }
@@ -78,7 +78,7 @@ export class MovieCardComponent implements OnInit{
         // Add the movie ID to the favoritemovie array
         this.favoriteMovie.push(movie._id);
         // Show a snack bar message
-        this.snackbar.open('Added to your favorites', 'OK', {
+        this.snackBar.open('Added to your favorites', 'OK', {
           duration: 3000,
         });
       });
@@ -94,7 +94,7 @@ export class MovieCardComponent implements OnInit{
         // Remove the movie ID from the favoritemovie array
         this.favoriteMovie = this.favoriteMovie.filter((id) => id !== movie._id);
         // Show a snack bar message
-        this.snackbar.open('Removed from your favorites', 'OK', {
+        this.snackBar.open('Removed from your favorites', 'OK', {
           duration: 3000,
         });
       });
