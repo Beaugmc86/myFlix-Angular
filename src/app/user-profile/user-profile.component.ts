@@ -190,30 +190,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   // Deletes the user's account.
-  async deleteUser(): Promise<void> {
+  deleteUser(): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
-    console.log('deleteUser function called:', user?.username);
-    
-    if (confirm('Do you want to delete your account permanently?')) {
-      if (user) {
+    if (user && confirm('Do you want to delete your account permanently?')) {
         this.fetchApiData.deleteUser(user.username).subscribe({
-          next: () => {
-            console.log('Account deletion response received.');
-            this.snackBar.open('Account deleted successfully!', 'OK', { duration: 3000 });
-            localStorage.clear();
-            this.router.navigate(['welcome']);
-          },
-          error: (error) => {
-            console.error('Error response from deleteUser API:', error);
-            this.snackBar.open('Failed to delete account', 'OK', { duration: 3000 });
-          }
+            next: (response: string) => { // Explicitly type response as string
+                console.log('Server response:', response); // Log the response message
+                this.snackBar.open('Account deleted successfully!', 'OK', { duration: 3000 });
+                localStorage.clear();
+                this.router.navigate(['welcome']);
+            },
+            error: (error) => {
+                console.error('Error deleting account:', error);
+                this.snackBar.open('Failed to delete account', 'OK', { duration: 3000 });
+            }
         });
-      } else {
-        console.error('Username is not available.');
-        this.snackBar.open('Failed to delete account. Username is missing.', 'OK', { duration: 3000 });
-      }
     }
-  }
+}
 
   // Open genre dialog
   openGenreDialog(movie: any): void {

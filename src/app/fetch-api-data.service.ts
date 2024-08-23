@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -110,17 +111,25 @@ export class FetchApiDataService {
   }
 
   // Delete User
-  public deleteUser(username: string): Observable<any> {
+  public deleteUser(username: string): Observable<string> {
     const token = localStorage.getItem('token');
     return this.http.delete(`${apiUrl}/users/${username}`, {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${token}`,
-      })
+        headers: new HttpHeaders({
+            Authorization: `Bearer ${token}`,
+        }),
+        responseType: 'text' // Explicitly specify the response type as text
     }).pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
+        map(response => {
+            // Here we assume the response is plain text
+            if (typeof response === 'string') {
+                return response; // Return the response directly as a string
+            } else {
+                throw new Error('Unexpected response format');
+            }
+        })
     );
-  }
+}
+
 
   // Add Favorite Movie
   public addFavoriteMovie(username: string, movieId: string): Observable<any> {
@@ -154,15 +163,9 @@ export class FetchApiDataService {
     return body || { };
   }
 
-private handleError(error: HttpErrorResponse): Observable<never> {
-    if (error.error instanceof ErrorEvent) {
-    console.error('Some error occurred:', error.error.message);
-    } else {
-    console.error(
-        `Error Status code ${error.status}, ` +
-        `Error body is: ${error.error}`);
-    }
-    return throwError(
-    'Something bad happened; please try again later.');
-  }
+  public handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError(() => new Error('An error occurred while processing your request.'));
+}
+  
 }
