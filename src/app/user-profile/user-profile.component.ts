@@ -8,6 +8,9 @@ import { DirectorCardComponent } from '../director-card/director-card.component'
 import { GenreCardComponent } from '../genre-card/genre-card.component';
 import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
 
+/**
+ * Component for user profile management.
+ */
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -40,25 +43,30 @@ export class UserProfileComponent implements OnInit {
   favoriteMoviesIDs: any[] = [];
 
   /**
-     * Constructs the UserProfileComponent.
-     * @param fetchApiData - The service for fetching API data.
-     * @param dialog - The dialog service for displaying dialogs.
-     * @param snackBar - The snack bar service for displaying notifications.
-     * @param router - The router service for navigation.
-     */
+   * Constructs the UserProfileComponent.
+   * @param fetchApiData - The service for fetching API data.
+   * @param dialog - The dialog service for displaying dialogs.
+   * @param snackBar - The snack bar service for displaying notifications.
+   * @param router - The router service for navigation.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
     public router: Router
   ) { }
-/** Lifecycle hook called after component initialization. */  ngOnInit(): void {
-    this.getUserProfile();
-    this.getMovies();
-    this.getFavorites();
+  /** 
+   * Lifecycle hook called after component initialization. 
+   */ 
+  ngOnInit(): void {
+  this.getUserProfile();
+  this.getMovies();
+  this.getFavorites();
   }
 
-  // Fetches user profile data.
+  /**
+   * Fetches user profile data.
+   */
   public getUserProfile(): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
     
@@ -88,7 +96,9 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  //Fetches all movies.
+  /**
+   * Fetches all movies.
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe(
       (response: any) => {
@@ -102,7 +112,9 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  //Fetches user's favorite movies.
+  /**
+   * Fetches user's favorite movies.
+   */
   getFavorites(): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
     if (user) {
@@ -114,14 +126,18 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  // Checks if a movie is in the user's favorite movies list.
+  /**
+   * Checks if a movie is in the user's favorite movies list.
+   */
   isFavorite(movie: any): boolean {
 
     return this.favoriteMoviesIDs.includes(movie._id);
   }
 
 
-  //Toggles a movie in the user's favorite movies list.
+  /**
+   * Toggles a movie in the user's favorite movies list.
+   */
   toggleFavorite(movie: any): void {
     console.log('toggleFavorite called with movie:', movie);
     const isFavorite = this.isFavorite(movie);
@@ -131,7 +147,9 @@ export class UserProfileComponent implements OnInit {
       : this.addFavoriteMovie(movie);
   }
 
-  //Adds a movie to the user's favorite movies list.
+  /**
+   * Adds a movie to the user's favorite movies list.
+   */
   addFavoriteMovie(movie: any): void {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     if (user) {
@@ -145,7 +163,9 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  //Deletes a movie from the user's favorite movies list.
+  /**
+   * Deletes a movie from the user's favorite movies list.
+   */
   deleteFavoriteMovie(movie: any): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
     if (user) {
@@ -163,7 +183,9 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  //Updates user data.
+  /**
+   * Updates user data.
+   */
   updateUser(): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
     const updatedUserData = this.formUserData;
@@ -189,7 +211,9 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  // Deletes the user's account.
+  /**
+   * Deletes the user's account.
+   */
   deleteUser(): void {
     const user = JSON.parse(localStorage.getItem('user') as string);
     if (user && confirm('Do you want to delete your account permanently?')) {
@@ -208,7 +232,9 @@ export class UserProfileComponent implements OnInit {
     }
 }
 
-  // Open genre dialog
+  /**
+   * Open genre dialog
+   */
   openGenreDialog(movie: any): void {
     this.dialog.open(GenreCardComponent, {
       data: {
@@ -219,7 +245,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  // Open director dialog
+  /**
+   * Open director dialog
+   */
   openDirectorDialog(movie: any): void {
     this.dialog.open(DirectorCardComponent, {
       data: {
@@ -231,7 +259,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  // Open synopsis dialog
+  /**
+   * Open synopsis dialog
+   */
   openSynopsisDialog(movie: any): void {
     this.dialog.open(SynopsisCardComponent, {
       data: {
@@ -242,7 +272,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  // Router back to movie page
+  /**
+   * Router back to movie page
+   */
   backToMovie(): void {
     this.router.navigate(['movies']);
   }

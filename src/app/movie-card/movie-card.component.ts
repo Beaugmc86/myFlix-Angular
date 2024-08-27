@@ -6,6 +6,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DirectorCardComponent } from '../director-card/director-card.component';
 import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
 
+/**
+ * Component page for full movies list and dialogs.
+ */
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
@@ -17,16 +20,29 @@ export class MovieCardComponent implements OnInit{
   userData = { userId: '', favoriteMovie:[] }
   favoriteMovie: any[] = [];
 
+/**
+ * Constructor of the MovieCardComponent class.
+ * Initializes FetchApiDataService, MatDialog, and MatSnackBar.
+ * @param fetchApiData - Service for fetching data from the API.
+ * @param dialog - Service for opening dialogs.
+ * @param snackBar - Service for displaying snack bar notifications.
+ */
   constructor(
     public fetchApiData: FetchApiDataService,
     public dialog: MatDialog,
     public snackBar: MatSnackBar
   ) { }
 
+  /**
+   * Lifecycle hook called after component initialization.
+   */
   ngOnInit(): void {
     this.getMovies();
   }
 
+  /**
+   * Fetches all movies from the database.
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe(
       (response: any) => {
@@ -40,6 +56,9 @@ export class MovieCardComponent implements OnInit{
     );
   }
 
+  /**
+   * Fetches current users favorite movies if in favoriteMovie array.
+   */
   getFavorites(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       if (Array.isArray(resp)) {
@@ -52,10 +71,19 @@ export class MovieCardComponent implements OnInit{
     });
   }
 
+  /**
+   * Checks if a movie is marked as favorite.
+   * @param movie - The movie object.
+   * @returns True if the movie is favorite, otherwise false.
+   */
   isFavorite(movie: any): boolean {
     return this.favoriteMovie.includes(movie._id);
   }
 
+  /**
+   * Toggles favorite movie to add or removed based on state of favorite movie.
+   * @param movie - The movie object.
+   */
   toggleFavorite(movie: any): void {
     console.log('toggleFavorite called with movie:', movie);
     const isFavorite = this.isFavorite(movie);
@@ -65,6 +93,10 @@ export class MovieCardComponent implements OnInit{
       : this.addFavoriteMovie(movie);
   }
 
+  /**
+   * Adds a movie title to favorites.
+   * @param movie - The movie object.
+   */
   addFavoriteMovie(movie: any): void {
     let user = localStorage.getItem('user');
     if (user) {
@@ -85,6 +117,10 @@ export class MovieCardComponent implements OnInit{
     }
   }
 
+  /**
+   * Removes a movie title from favorites.
+   * @param movie - The movie object.
+   */
   deleteFavoriteMovie(movie: any): void {
     let user = localStorage.getItem('user');
     if (user) {
@@ -101,6 +137,10 @@ export class MovieCardComponent implements OnInit{
     }
   }
 
+  /**
+   * Opens genre dialog box.
+   * @param movie - movie object.
+   */
   openGenreDialog(movie: any): void {
     this.dialog.open(GenreCardComponent, {
       data: {
@@ -111,6 +151,10 @@ export class MovieCardComponent implements OnInit{
     })
   }
 
+  /**
+   * Opens director dialog box.
+   * @param movie - movie object.
+   */
   openDirectorDialog(movie: any): void {
     this.dialog.open(DirectorCardComponent, {
       data: {
@@ -122,6 +166,10 @@ export class MovieCardComponent implements OnInit{
     })
   }
 
+  /**
+   * Opens synopsis dialog box
+   * @param movie - movie object.
+   */
   openSynopsisDialog(movie: any): void {
     this.dialog.open(SynopsisCardComponent, {
       data: {
